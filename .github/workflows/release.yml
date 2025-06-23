@@ -3,9 +3,16 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
-
-permissions:
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          version: latest
+          args: release --clean --skip=validate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GORELEASER_CURRENT_TAG: v0.1.0
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}missions:
   contents: write
   packages: write
   issues: write
@@ -26,6 +33,9 @@ jobs:
           go-version: '1.24.4'
           check-latest: true
 
+      - name: Clean Go module cache
+        run: rm -rf $GOPATH/pkg/mod
+        
       - name: Cache Go modules
         uses: actions/cache@v4
         with:
