@@ -118,18 +118,35 @@ jobs:
         run: make deps
         
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master # Using latest version
+        uses: aquasecurity/trivy-action@v0.17.0 # Using specific version for stability
         with:
           scan-type: "fs"
           scan-ref: "."
           format: "sarif"
           output: "trivy-results.sarif"
-          severity: "CRITICAL,HIGH"
+          severity: "CRITICAL,HIGH,MEDIUM" # Include MEDIUM to have more data
+          exit-code: "1" # Fail on vulnerabilities found
+          ignore-unfixed: false
           timeout: "10m"
+          
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: "trivy-results.sarif"
+          category: "trivy" # Important for proper categorization
+          wait-for-processing: true
+          
+      - name: Debug SARIF file
+        run: |
+          echo "SARIF file details:"
+          ls -la trivy-results.sarif
+          if [ -f "trivy-results.sarif" ]; then
+            echo "SARIF file size: $(wc -c < trivy-results.sarif) bytes"
+            echo "SARIF file first lines:"
+            head -20 trivy-results.sarif
+          else
+            echo "SARIF file not found!"
+          fi
   build:
     runs-on: ubuntu-latest
     needs: [test, lint, security]

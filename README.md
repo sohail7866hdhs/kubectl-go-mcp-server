@@ -1,12 +1,13 @@
 # kubectl-go-mcp-server
 
-A Model Context Protocol (MCP) server that provides Kubernetes cluster interaction capabilities through kubectl commands. This server enables MCP-compatible clients (like VS Code with Copilot) to execute kubectl commands and retrieve Kubernetes cluster information.
+A Model Context Protocol (MCP) server that provides Kubernetes cluster interaction capabilities through kubectl commands. This server enables MCP-compatible clients (like VS Code with Copilot) to execute kubectl commands and retrieve Kubernetes cluster information safely and securely.
 
 ## Features
 
 - **Kubernetes Integration**: Execute kubectl commands through MCP interface
 - **Interactive Command Protection**: Prevents execution of interactive commands that could hang
 - **Resource Modification Detection**: Identifies commands that modify cluster resources
+- **Robust Security**: Multiple validation layers to prevent command injection and unsafe operations
 - **Configurable Kubeconfig**: Support for custom kubeconfig paths
 - **Standard Go Project Layout**: Following Go best practices for maintainability
 - **Cobra CLI Integration**: Professional command-line interface with subcommands
@@ -98,10 +99,10 @@ Download the latest release from the [releases page](releases) for your platform
 
 ```bash
 # Run with default kubeconfig
-./kubectl-go-mcp-server --mcp-server
+./kubectl-go-mcp-server
 
 # Run with custom kubeconfig
-./kubectl-go-mcp-server --mcp-server --kubeconfig /path/to/kubeconfig
+./kubectl-go-mcp-server --kubeconfig /path/to/kubeconfig
 
 # Show version
 ./kubectl-go-mcp-server version
@@ -127,7 +128,7 @@ Add the server to your VS Code MCP configuration in `settings.json`:
       "kubectl-go-mcp-server": {
         "type": "stdio",
         "command": "/path/to/kubectl-go-mcp-server",
-        "args": ["--mcp-server"],
+        "args": [],
         "env": {}
       }
     }
