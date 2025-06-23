@@ -12,7 +12,9 @@ on:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GORELEASER_CURRENT_TAG: v0.1.0
           GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}missions:
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          
+permissions:
   contents: write
   packages: write
   issues: write
@@ -35,7 +37,7 @@ jobs:
 
       - name: Clean Go module cache
         run: rm -rf $GOPATH/pkg/mod
-        
+
       - name: Cache Go modules
         uses: actions/cache@v4
         with:
