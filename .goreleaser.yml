@@ -27,14 +27,14 @@ builds:
       - -X main.date={{.Date}}
     
 archives:
-  - format: tar.gz
-    name_template: >-
+  - name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format: tar.gz
     format_overrides:
       - goos: windows
         format: zip
@@ -56,13 +56,13 @@ changelog:
 checksum:
   name_template: 'checksums.txt'
 
-# Use snapshot for compatibility
+# Snapshot configuration
 snapshot:
   name_template: "{{ .Tag }}-next"
 
 release:
   github:
-    owner: "{{ if index .Env \"GITHUB_REPOSITORY_OWNER\"}}{{.Env.GITHUB_REPOSITORY_OWNER}}{{else}}your-username{{end}}"
+    owner: "{{ if index .Env \"GITHUB_REPOSITORY_OWNER\"}}{{.Env.GITHUB_REPOSITORY_OWNER}}{{else}}username{{end}}"
     name: "{{ if index .Env \"GITHUB_REPOSITORY\"}}{{.Env.GITHUB_REPOSITORY}}{{else}}kubectl-go-mcp-server{{end}}"
   draft: false
   prerelease: auto
@@ -87,7 +87,7 @@ nfpms:
     maintainer: "Project Maintainers"
     license: "MIT"
     vendor: "kubectl-go-mcp-server"
-    homepage: "https://github.com/{{ if index .Env \"GITHUB_REPOSITORY\"}}{{.Env.GITHUB_REPOSITORY}}{{else}}your-username/kubectl-go-mcp-server{{end}}"
+    homepage: "https://github.com/{{ if index .Env \"GITHUB_REPOSITORY\"}}{{.Env.GITHUB_REPOSITORY}}{{else}}username/kubectl-go-mcp-server{{end}}"
     formats:
       - deb
       - rpm
