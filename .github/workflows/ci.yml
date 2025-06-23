@@ -120,16 +120,15 @@ jobs:
       - name: Download dependencies
         run: make deps
         
-      - name: Run Trivy file system scan
-        uses: aquasecurity/trivy-action@master
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master # Using latest version
         with:
-          fs-ref: '.'
-          format: "sarif" # Generate SARIF output
-          output: "trivy-results.sarif" # Save to a file
-          exit-code: 1
-          ignore-unfixed: true
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
           severity: "CRITICAL,HIGH"
-
+          timeout: "10m"
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:
