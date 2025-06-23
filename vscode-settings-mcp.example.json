@@ -1,0 +1,17 @@
+{
+    "github.copilot.enable": {
+        "*": true
+    },
+    "mcp": {          
+        "servers": {
+            "kubectl-go-mcp-server": {
+                "type": "stdio",
+                "command": "/path/to/kubectl-go-mcp-server",
+                "args": [],
+                "env": {
+                    "KUBECONFIG": "/path/to/.kube/config"
+                }
+            }
+        }
+    }
+}

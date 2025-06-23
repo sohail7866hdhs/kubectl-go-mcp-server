@@ -1,0 +1,99 @@
+version: 2
+
+project_name: kubectl-go-mcp-server
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: ./cmd
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+    
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+      - Merge pull request
+      - Merge branch
+
+checksum:
+  name_template: 'checksums.txt'
+
+# Use snapshot for compatibility
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+release:
+  github:
+    owner: "{{ if index .Env \"GITHUB_REPOSITORY_OWNER\"}}{{.Env.GITHUB_REPOSITORY_OWNER}}{{else}}your-username{{end}}"
+    name: "{{ if index .Env \"GITHUB_REPOSITORY\"}}{{.Env.GITHUB_REPOSITORY}}{{else}}kubectl-go-mcp-server{{end}}"
+  draft: false
+  prerelease: auto
+  name_template: "v{{.Version}}"
+  header: |
+    # Release v{{.Version}}
+
+    See [CHANGELOG](CHANGELOG.md) for details.
+  footer: |
+    ## Installation Instructions
+    
+    For installation instructions, please see the [README](README.md).
+    
+    ## Thanks!
+    
+    Thanks to everyone who contributed to this release!
+
+nfpms:
+  - file_name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    package_name: kubectl-go-mcp-server
+    description: "Kubernetes MCP Server implementation in Go"
+    maintainer: "Project Maintainers"
+    license: "MIT"
+    vendor: "kubectl-go-mcp-server"
+    homepage: "https://github.com/{{ if index .Env \"GITHUB_REPOSITORY\"}}{{.Env.GITHUB_REPOSITORY}}{{else}}your-username/kubectl-go-mcp-server{{end}}"
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
+    contents:
+      - src: ./LICENSE
+        dst: /usr/share/doc/kubectl-go-mcp-server/LICENSE
+      - src: ./README.md
+        dst: /usr/share/doc/kubectl-go-mcp-server/README.md
