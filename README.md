@@ -110,16 +110,7 @@ Download the latest release from the [releases page](releases) for your platform
 
 ### VS Code Integration
 
-For comprehensive VS Code MCP integration guides, see the [examples directory](./examples/):
-
-- **[Docker Integration](./examples/docker-integration.md)**: Complete Docker-based configurations for all platforms
-- **[macOS Native](./examples/macos-native.md)**: Native macOS binary installation and configuration
-- **[Windows Native](./examples/windows-native.md)**: Native Windows binary installation and configuration
-- **[Linux Native](./examples/linux-native.md)**: Native Linux binary installation and configuration
-
-#### Quick Configuration Example
-
-Add the server to your VS Code MCP configuration in `settings.json`:
+To use with VS Code and Copilot, add this MCP server to your VS Code settings:
 
 ```json
 {
@@ -128,7 +119,6 @@ Add the server to your VS Code MCP configuration in `settings.json`:
       "kubectl-go-mcp-server": {
         "type": "stdio",
         "command": "/path/to/kubectl-go-mcp-server",
-        "args": [],
         "env": {}
       }
     }
@@ -136,7 +126,7 @@ Add the server to your VS Code MCP configuration in `settings.json`:
 }
 ```
 
-**Note**: The exact configuration varies by platform and installation method. See the platform-specific guides in the `examples/` directory for detailed instructions.
+For platform-specific installation details, see the [examples directory](./examples/).
 
 ## Available Tools
 
