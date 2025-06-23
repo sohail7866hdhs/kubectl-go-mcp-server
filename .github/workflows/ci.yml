@@ -104,16 +104,14 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-          check-latest: true
-
-      - name: Cache Go modules
+          check-latest: true      - name: Cache Go modules
         uses: actions/cache@v4
-        with:          
-        path: |
+        with:
+          path: |
             ~/go/pkg/mod
             ~/.cache/go-build
-        key: ${{ runner.os }}-go-${{ env.GO_VERSION }}-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
+          key: ${{ runner.os }}-go-${{ env.GO_VERSION }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
             ${{ runner.os }}-go-${{ env.GO_VERSION }}-
             ${{ runner.os }}-go-
             
