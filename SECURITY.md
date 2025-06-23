@@ -18,7 +18,7 @@ We take the security of kubectl-go-mcp-server seriously. If you believe you've f
 ### For Security-Sensitive Vulnerabilities
 
 1. **Do not** disclose the vulnerability publicly
-2. Email the details to [INSERT SECURITY EMAIL HERE]
+2. Email the details to joetech.ooj@gmail.com
 3. Include as much information as possible:
    - A description of the vulnerability
    - How it could be exploited
