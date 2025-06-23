@@ -62,8 +62,8 @@ snapshot:
 
 release:
   github:
-    owner: "{{ if index .Env \"GITHUB_REPOSITORY_OWNER\"}}{{.Env.GITHUB_REPOSITORY_OWNER}}{{else}}username{{end}}"
-    name: "{{ if index .Env \"GITHUB_REPOSITORY\"}}{{.Env.GITHUB_REPOSITORY}}{{else}}kubectl-go-mcp-server{{end}}"
+    owner: "{{ .Env.GITHUB_REPOSITORY_OWNER }}"
+    name: "kubectl-go-mcp-server"
   draft: false
   prerelease: auto
   name_template: "v{{.Version}}"
@@ -87,7 +87,7 @@ nfpms:
     maintainer: "Project Maintainers"
     license: "MIT"
     vendor: "kubectl-go-mcp-server"
-    homepage: "https://github.com/{{ if index .Env \"GITHUB_REPOSITORY\"}}{{.Env.GITHUB_REPOSITORY}}{{else}}username/kubectl-go-mcp-server{{end}}"
+    homepage: "https://github.com/{{ .Env.GITHUB_REPOSITORY_OWNER }}/kubectl-go-mcp-server"
     formats:
       - deb
       - rpm
