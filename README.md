@@ -79,7 +79,7 @@ The architecture is designed for extensibility:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Joelayo/kubectl-go-mcp-server.git
 cd kubectl-go-mcp-server
 
 # Build the binary
@@ -91,7 +91,7 @@ make install
 
 ### Download Binary
 
-Download the latest release from the [releases page](releases) for your platform.
+Download the latest release from the [releases page](https://github.com/Joelayo/kubectl-go-mcp-server/releases) for your platform.
 
 ## Usage
 
@@ -195,8 +195,8 @@ For detailed debugging information, the server logs all tool calls, validation r
 
 ## Support
 
-- [Create an issue](https://github.com/your-username/kubectl-go-mcp-server/issues) for bug reports or feature requests
-- Check [existing issues](https://github.com/your-username/kubectl-go-mcp-server/issues) for known problems
+- [Create an issue](https://github.com/Joelayo/kubectl-go-mcp-server/issues) for bug reports or feature requests
+- Check [existing issues](https://github.com/Joelayo/kubectl-go-mcp-server/issues) for known problems
 - See [CONTRIBUTING.md](CONTRIBUTING.md) for development questions
 
 ## License
