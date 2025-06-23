@@ -6,11 +6,11 @@ on:
   pull_request:
     branches: [main]
 
-# permissions:
-#   contents: read
-#   security-events: write
-#   actions: read
-#   pull-requests: read
+permissions:
+  contents: read
+  security-events: write
+  actions: write
+  pull-requests: read
 
 env:
   GO_VERSION: "1.24.4"
@@ -94,9 +94,6 @@ jobs:
           args: --timeout=5m
   security:
     runs-on: ubuntu-latest
-    # permissions:
-    #   contents: read
-    #   security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
