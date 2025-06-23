@@ -115,10 +115,8 @@ jobs:
           key: ${{ runner.os }}-go-${{ env.GO_VERSION }}-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-${{ env.GO_VERSION }}-
-            ${{ runner.os }}-go-
-
-      - name: Download dependencies
-        run: make deps      
+            ${{ runner.os }}-go-      - name: Download dependencies
+        run: make deps
         
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master # Using latest version
@@ -128,7 +126,9 @@ jobs:
           format: "sarif"
           output: "trivy-results.sarif"
           severity: "CRITICAL,HIGH"
-          timeout: "10m"      - name: Upload Trivy scan results to GitHub Security tab
+          timeout: "10m"
+          
+      - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: success() && github.repository_owner == github.actor # Only upload on successful scans and authorized repos
         with:
@@ -141,7 +141,8 @@ jobs:
           if [ -f "trivy-results.sarif" ]; then
             echo "SARIF file exists but upload failed. Checking file size and content..."
             ls -la trivy-results.sarif
-            head -n 20 trivy-results.sarif          else
+            head -n 20 trivy-results.sarif
+          else
             echo "SARIF file was not created. Trivy scan may have failed."
           fi
       
